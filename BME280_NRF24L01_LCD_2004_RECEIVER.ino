@@ -56,7 +56,7 @@ byte customChar[8] = {
   0b00011,
   0b00000,
   0b00000,
-  0b00000, // This the degrees character 
+  0b00000, // This the degrees character
   0b00000,
   0b00000,
   0b00000
@@ -68,8 +68,8 @@ void setup()
   radio.begin();
   lcd.init();                 // initialize the lcd
   lcd.createChar(0, customChar); // create a new custom character
-  
- 
+
+
   lcd.print("Starting...");
   delay(500);
   lcd.clear();
@@ -144,23 +144,23 @@ void loop()
       lcd.print(data.humidity);
       lcd.print("%");
 
-      lcd.setCursor(5, 0);
-      lcd.print("Temp ");
+      lcd.setCursor(4, 0);
+      lcd.print("Temp  ");
       lcd.print(data.temperature);
-      lcd.print(" C");
-      lcd.setCursor(15, 0); // move cursor to (15, 0)
-      lcd.write((byte)0);  // print the custom char at (15, 0)
+      lcd.write((byte)0);  // print the custom char
+      lcd.print("C ");
 
       lcd.setCursor(0, 2);
       lcd.print("Altitude  ");
       lcd.print(data.altitude);
-      lcd.print("m");
+      lcd.print("m ");
 
       lcd.setCursor(0, 3);
       lcd.print("Air Pres' ");
       lcd.print(data.pressure);
       lcd.print("hPa");
-
+      
+      
     }
   }
 }
