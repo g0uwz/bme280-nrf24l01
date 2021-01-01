@@ -5,10 +5,10 @@
   Wireless Weather Station
 
   LCD 2004
-  SDA A4 yellow
-  SCL A5 green
-  GND  0v  black
-  VCC  5v  red
+  SDA   A4 yellow
+  SCL   A5 green
+  GND   0v  black
+  VCC   5v  red
   Hex address 0x27
 
   NRF24L01      ARDUINO NANO
@@ -51,19 +51,30 @@ struct MyData
 
 };
 MyData data;
-
+byte customChar[8] = {
+  0b00011,
+  0b00011,
+  0b00000,
+  0b00000,
+  0b00000, // This the degrees character 
+  0b00000,
+  0b00000,
+  0b00000
+};
 void setup()
 {
   Serial.begin(9600);
   pinMode(3, INPUT_PULLUP);
   radio.begin();
   lcd.init();                 // initialize the lcd
-
+  lcd.createChar(0, customChar); // create a new custom character
+  
+ 
   lcd.print("Starting...");
   delay(500);
   lcd.clear();
 
-  lcd.print("NRF24L01 Connecting");
+  lcd.print("Weather Monitor");
   delay(500);
   lcd.clear();
   radio.setDataRate(RF24_250KBPS);  // 250KBPS - 1MBPS - 2MBPS
@@ -127,20 +138,21 @@ void loop()
       Serial.println("%");
 
       Serial.println();
-      
+
       lcd.setCursor(0, 1);
       lcd.print("Humidity  ");
       lcd.print(data.humidity);
       lcd.print("%");
 
-      lcd.setCursor(0, 0);
+      lcd.setCursor(5, 0);
       lcd.print("Temp ");
       lcd.print(data.temperature);
       lcd.print(" C");
-
+      lcd.setCursor(15, 0); // move cursor to (15, 0)
+      lcd.write((byte)0);  // print the custom char at (15, 0)
 
       lcd.setCursor(0, 2);
-      lcd.print("Altitude ");
+      lcd.print("Altitude  ");
       lcd.print(data.altitude);
       lcd.print("m");
 
